@@ -29,6 +29,7 @@ import android.content.pm.ResolveInfo;
 
 /**
  * Stores the list of all applications for the all apps view.
+ * 为所有的应用视图保存列表
  */
 class AllAppsList {
     public static final int DEFAULT_APPLICATIONS_NUMBER = 42;

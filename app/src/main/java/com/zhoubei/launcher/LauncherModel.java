@@ -70,7 +70,7 @@ import java.util.Set;
  * 还为 Launcher 提供用于更新数据库状态的api
  */
 public class LauncherModel extends BroadcastReceiver {
-    static final boolean DEBUG_LOADERS = false;
+    static final boolean DEBUG_LOADERS = true;
     static final String TAG = "Launcher.Model";
 
     private static final int ITEMS_CHUNK = 6; // batch size for the workspace icons 工作区图标的批处理大小。
@@ -1046,6 +1046,7 @@ public class LauncherModel extends BroadcastReceiver {
             // Wait until the either we're stopped or the other threads are done.
             // This way we don't start loading all apps until the workspace has settled
             // down.
+            // 等待，直到我们停止或其他线程完成。这样我们就不会开始加载所有的应用程序，直到工作空间稳定下来。
             synchronized (LoaderTask.this) {
                 final long workspaceWaitTime = DEBUG_LOADERS ? SystemClock.uptimeMillis() : 0;
 
@@ -1136,6 +1137,7 @@ public class LauncherModel extends BroadcastReceiver {
                     Process.setThreadPriority(mIsLaunching
                             ? Process.THREAD_PRIORITY_DEFAULT : Process.THREAD_PRIORITY_BACKGROUND);
                 }
+                // 第一次的时候加载表层的所有图标（最喜爱的图标   浮层）
                 if (loadWorkspaceFirst) {
                     if (DEBUG_LOADERS) Log.d(TAG, "step 1: loading workspace");
                     loadAndBindWorkspace();
@@ -1157,8 +1159,8 @@ public class LauncherModel extends BroadcastReceiver {
                     }
                 }
                 waitForIdle();
-
                 // second step
+                // 第二步，在点击home键的时候，进入第二层，加载所有图标
                 if (loadWorkspaceFirst) {
                     if (DEBUG_LOADERS) Log.d(TAG, "step 2: loading all apps");
                     loadAndBindAllApps();
@@ -1900,6 +1902,7 @@ public class LauncherModel extends BroadcastReceiver {
 
             // Don't use these two variables in any of the callback runnables.
             // Otherwise we hold a reference to them.
+            // 不要在任何回调runnables中使用这两个变量。我们会在其他地方保存引用
             final Callbacks oldCallbacks = mCallbacks.get();
             if (oldCallbacks == null) {
                 // This launcher has exited and nobody bothered to tell us.  Just bail.

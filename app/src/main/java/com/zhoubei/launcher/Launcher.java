@@ -2598,7 +2598,7 @@ public final class Launcher extends Activity
     /**
      * Zoom the camera out from the workspace to reveal 'toView'.
      * Assumes that the view to show is anchored at either the very top or very bottom
-     * of the screen.  进入桌面的动画
+     * of the screen.  进入桌面,显示第二层界面
      */
     private void showAppsCustomizeHelper(final boolean animated, final boolean springLoaded) {
         if (mStateAnimation != null) {
@@ -3721,7 +3721,7 @@ public final class Launcher extends Activity
 
     /**
      * Add the icons for all apps.
-     *
+     * 为所有的app添加icons
      * Implementation of the method from LauncherModel.Callbacks.
      */
     public void bindAllApplications(final ArrayList<ApplicationInfo> apps) {
